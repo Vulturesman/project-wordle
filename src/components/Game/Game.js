@@ -3,26 +3,23 @@ import React, { useState } from "react";
 import { sample } from "../../utils";
 import { WORDS } from "../../data";
 import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
+import { checkGuess } from "../../game-helpers";
 
 import GuessInput from "../GuessInput/GuessInput";
 import PreviousGuess from "../PreviousGuess";
 import WonBanner from "../WonBanner/WonBanner";
 import LostBanner from "../LostBanner/LostBanner";
-
-// Pick a random word on every pageload.
-const answer = sample(WORDS);
-console.info({ answer });
+import Keyboard from "../Keyboard/Keyboard";
 
 function Game() {
+  const [answer, setAnswer] = React.useState(() => sample(WORDS));
   const [previousGuess, setPreviousGuess] = useState([]);
   const [status, setStatus] = useState("running");
 
+  console.log(answer);
+
   function handleSubmitGuess(input) {
-    const nextGuess = {
-      value: input,
-      id: `${input}-${Math.random()}`,
-    };
-    const nextGuesses = [...previousGuess, nextGuess];
+    const nextGuesses = [...previousGuess, input];
     setPreviousGuess(nextGuesses);
 
     if (input === answer) {
@@ -32,14 +29,34 @@ function Game() {
     }
   }
 
+  function handleRestart() {
+    const newAnswer = sample(WORDS);
+    setAnswer(newAnswer);
+    setPreviousGuess([]);
+    setStatus("running");
+  }
+
+  const validatedGuesses = previousGuess.map((guess) =>
+    checkGuess(guess, answer)
+  );
+
   return (
     <>
-      <PreviousGuess previousGuess={previousGuess} answer={answer} />
+      <PreviousGuess validatedGuesses={validatedGuesses} />
 
       <GuessInput status={status} handleSubmitGuess={handleSubmitGuess} />
 
-      {status === "won" && <WonBanner numOfGuesses={previousGuess.length} />}
-      {status === "lost" && <LostBanner answer={answer} />}
+      <Keyboard validatedGuesses={validatedGuesses} />
+
+      {status === "won" && (
+        <WonBanner
+          numOfGuesses={previousGuess.length}
+          handleRestart={handleRestart}
+        />
+      )}
+      {status === "lost" && (
+        <LostBanner answer={answer} handleRestart={handleRestart} />
+      )}
     </>
   );
 }
