@@ -23,7 +23,7 @@ function Game() {
 
   return (
     <>
-      <PreviousGuess previousGuess={previousGuess} />
+      <PreviousGuess previousGuess={previousGuess} answer={answer} />
       <GuessInput handleSubmitGuess={handleSubmitGuess} />
     </>
   );
