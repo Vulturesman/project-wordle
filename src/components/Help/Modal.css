@@ -1,0 +1,44 @@
+.wrapper {
+    display: none;
+}
+
+.wrapper.active {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    z-index: 1000;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+}
+
+.dialog {
+    position: relative;
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    width: 60%;
+    max-width: 500px;
+}
+
+.closeBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+    color: white;
+    transform: translateY(-100%);
+    cursor: pointer;
+    background: transparent;
+    border: none
+}
+
+button.help {
+    color: rgba(0, 145, 255, 0.753);
+}
