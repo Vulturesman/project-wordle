@@ -7,7 +7,6 @@ function Header() {
   const [isModalOpen, toggleIsModalOpen] = useToggle(false);
   return (
     <header>
-      <h1>Hra WORDLE</h1>
       {isModalOpen && (
         <Help handleDismiss={toggleIsModalOpen} isModalOpen={isModalOpen}>
           <h3>
@@ -50,6 +49,8 @@ function Header() {
       <button className="help" onClick={toggleIsModalOpen}>
         <HelpCircle />
       </button>
+
+      <h1>Hra WORDLE</h1>
     </header>
   );
 }
